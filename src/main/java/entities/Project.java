@@ -41,7 +41,13 @@ public class Project {
     public void addEmployee(Employee employee) {
         this.employees.add(employee);
 //        if(!employee.getProjects().contains(this))
-            employee.getProjects().add(this);
+        employee.getProjects().add(this);
+    }
+
+    public void removeEmployee(Employee employee) {
+        this.employees.remove(employee);
+//        if(!employee.getProjects().contains(this))
+        employee.getProjects().remove(this);
     }
 
     public void setId(Integer id) {
