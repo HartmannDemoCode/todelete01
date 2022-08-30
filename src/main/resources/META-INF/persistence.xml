@@ -4,6 +4,8 @@
         <class>entities.Student</class>
         <class>entities.ClassRoom</class>
         <class>entities.Teacher</class>
+        <class>entities.Employee</class>
+        <class>entities.Project</class>
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!--    <class>entities.RenameMe</class>-->
         <exclude-unlisted-classes>false</exclude-unlisted-classes>

@@ -34,7 +34,7 @@ public class StudentFacade implements DataFacade{
         Teacher t2 = sf.createTeacher(new Teacher("Kalle"));
 
 
-        System.out.println(s);
+//        System.out.println(s);
         List<Student> students = sf.getAll();
         System.out.println("STUDENT LIST:");
         students.forEach(System.out::println);
@@ -44,10 +44,11 @@ public class StudentFacade implements DataFacade{
         s.setAge(13);
         System.out.println(sf.updateStudent(s));
         sf.getAll().forEach(System.out::println);
-        System.out.println("DELETE");
-        sf.delete(s);
-        sf.getAll().forEach(System.out::println);
-        ClassRoom cr = new ClassRoom("0.02", true);
+//        System.out.println("DELETE");
+//        sf.delete(s);
+//        sf.getAll().forEach(System.out::println);
+        System.out.println("ADD CLASSROOM");
+        ClassRoom cr = new ClassRoom("0.03", true);
         sf.getAll().forEach(
                 (student)->{
                     cr.addStudent(student);
@@ -55,6 +56,8 @@ public class StudentFacade implements DataFacade{
                     t2.addStudents(student);
         });
         sf.createClass(cr);
+        sf.updateTeacher(t);
+        sf.updateTeacher(t2);
     }
 
     @Override
@@ -79,6 +82,21 @@ public class StudentFacade implements DataFacade{
         return merged;
     }
 
+    public Teacher updateTeacher(Teacher t) {
+        EntityManager em = getEntityManager();
+        Teacher merged;
+        try {
+            em.getTransaction().begin();
+            merged = em.merge(t);
+            t.getStudents().forEach((student)->{
+                em.merge(student);
+            });
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return merged;
+    }
     @Override
     public Integer delete(Student s) {
         EntityManager em = getEntityManager();
@@ -103,6 +121,9 @@ public class StudentFacade implements DataFacade{
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(cr);
+        cr.getStudents().forEach((student)->{
+            em.merge(student);
+        });
         em.getTransaction().commit();
         em.close();
         return cr;
@@ -112,6 +133,9 @@ public class StudentFacade implements DataFacade{
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(t);
+        t.getStudents().forEach((student)->{
+            em.merge(student);
+        });
         em.getTransaction().commit();
         em.close();
         return t;

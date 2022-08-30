@@ -26,6 +26,8 @@ public class ClassRoom {
 
     public void addStudent(Student student) {
         this.students.add(student);
+        if(student.getClassRoom()==null)
+            student.setClassRoom(this);
     }
 
     public ClassRoom(String name, boolean hasBlackBoard) {
