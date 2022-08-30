@@ -40,8 +40,7 @@ public class Employee {
 
     public void addProject(Project project) {
         this.projects.add(project);
-        if(!project.getEmployees().contains(this))
-            project.getEmployees().add(this);
+        project.getEmployees().add(this);
     }
 
     public Integer getId() {
